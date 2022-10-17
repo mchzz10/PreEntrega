@@ -12,7 +12,7 @@ namespace Mauro_Chazarreta.Handlers
     internal class ADO_Venta
     {
         // D_ Metodo para traer ventas filtrando por la Id de un usuario.
-        public List<Venta> GetProductosVendidosByUsuario()
+        public List<Venta> GetProductosVendidosByUsuario(int IdUsuario)
         {
             var ventas = new List<Venta>();
 
@@ -31,7 +31,7 @@ namespace Mauro_Chazarreta.Handlers
 
                 parametro.ParameterName = "IdUsu";
                 parametro.SqlDbType = SqlDbType.BigInt;
-                parametro.Value = 1;
+                parametro.Value = IdUsuario;
 
                 comando.Parameters.Add(parametro);
 
@@ -46,19 +46,10 @@ namespace Mauro_Chazarreta.Handlers
                     ventas.Add(venta);
 
                 }
-
-                Console.WriteLine("-----VENTAS-----");
-                foreach (var vent in ventas)
-                {
-                    Console.WriteLine("*Id = " + vent.id);
-                    Console.WriteLine("*comentarios = " + vent.comentarios);
-                    Console.WriteLine("*idUsuario = " + vent.idUsuario);
-                    Console.WriteLine("________________");
-                }
                 reader.Close();
             }
 
-            return new List<Venta>();
+            return ventas;
         }
     }
 }

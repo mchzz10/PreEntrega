@@ -13,7 +13,7 @@ namespace Mauro_Chazarreta.Handlers
     {
         // B_ Metodo para traer los productos cargados por un usuario en particular.
 
-        public List<Producto> GetproductoByIdUsuario()
+        public List<Producto> GetproductoByIdUsuario(int IdUsuario)
         {
             var listaProductos = new List<Producto>();
 
@@ -33,7 +33,7 @@ namespace Mauro_Chazarreta.Handlers
 
                 parametro.ParameterName = "IdUsu";
                 parametro.SqlDbType = SqlDbType.BigInt;
-                parametro.Value = 1;
+                parametro.Value = IdUsuario;
 
                 comando.Parameters.Add(parametro);
 
@@ -52,21 +52,9 @@ namespace Mauro_Chazarreta.Handlers
                     listaProductos.Add(produc);
                 }
 
-                Console.WriteLine("-----Productos-----");
-                foreach (var produc in listaProductos)
-                {
-                    Console.WriteLine("*Id = " + produc.id);
-                    Console.WriteLine("*descripciones = " + produc.descripciones);
-                    Console.WriteLine("*costo = " + produc.costo);
-                    Console.WriteLine("*precioVenta = " + produc.precioVenta);
-                    Console.WriteLine("*stock = " + produc.stock);
-                    Console.WriteLine("*idUsuario = " + produc.idUsuario);
-
-                    Console.WriteLine("________________");
-                }
                 reader.Close();
             }
-            return new List<Producto>();
+            return listaProductos;
         }
     }
 }

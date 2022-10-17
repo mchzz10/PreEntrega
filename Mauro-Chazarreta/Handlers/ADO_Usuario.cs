@@ -12,7 +12,7 @@ namespace Mauro_Chazarreta.Handlers
     internal class ADO_Usuario
     {
         // A_ Metodo para traer un usuario por su nombre de usuario de la lista de usuarios
-        public List<Usuario> GetUsuarioByNombreUsuario()
+        public List<Usuario> GetUsuarioByNombreUsuario(string NombreUsuario)
         {
             var listaProductos = new List<Usuario>();
 
@@ -32,7 +32,7 @@ namespace Mauro_Chazarreta.Handlers
 
                 parametro.ParameterName = "NomUsu";
                 parametro.SqlDbType = SqlDbType.VarChar;
-                parametro.Value = "tcasazza";
+                parametro.Value = NombreUsuario;
 
                 comando.Parameters.Add(parametro);
 
@@ -50,26 +50,13 @@ namespace Mauro_Chazarreta.Handlers
 
                     listaProductos.Add(usuario);
                 }
-
-                Console.WriteLine("-----Usuario-----");
-                foreach (var usuario in listaProductos)
-                {
-                    Console.WriteLine("*Id = " + usuario.Id);
-                    Console.WriteLine("*Nombre = " + usuario.Nombre);
-                    Console.WriteLine("*Apellido = " + usuario.Apellido);
-                    Console.WriteLine("*NombreUsuario = " + usuario.NombreUsuario);
-                    Console.WriteLine("*Contraseña = " + usuario.Contrasena);
-                    Console.WriteLine("*Mail = " + usuario.Mail);
-
-                    Console.WriteLine("________________");
-                }
                 reader.Close();
             }
-            return new List<Usuario>();
+            return listaProductos;
         }
 
         // E_ Metodo para iniciar sesion
-        public List<Usuario> GetUsuarioByInicioSesion()
+        public List<Usuario> GetUsuarioByInicioSesion(string NombreUsuario, string Contraseña)
         {
             var listaProductos = new List<Usuario>();
 
@@ -89,7 +76,7 @@ namespace Mauro_Chazarreta.Handlers
 
                 parametro.ParameterName = "NomUsu";
                 parametro.SqlDbType = SqlDbType.VarChar;
-                parametro.Value = "tcasazza";
+                parametro.Value = NombreUsuario;
 
                 comando.Parameters.Add(parametro);
 
@@ -97,7 +84,7 @@ namespace Mauro_Chazarreta.Handlers
 
                 parametro1.ParameterName = "Contraseña";
                 parametro1.SqlDbType = SqlDbType.VarChar;
-                parametro1.Value = "SoyTobiasCasazza";
+                parametro1.Value = Contraseña;
 
                 comando.Parameters.Add(parametro1);
 
@@ -115,22 +102,9 @@ namespace Mauro_Chazarreta.Handlers
 
                     listaProductos.Add(usuario);
                 }
-
-                Console.WriteLine("-----Usuario-----");
-                foreach (var usuario in listaProductos)
-                {
-                    Console.WriteLine("*Id = " + usuario.Id);
-                    Console.WriteLine("*Nombre = " + usuario.Nombre);
-                    Console.WriteLine("*Apellido = " + usuario.Apellido);
-                    Console.WriteLine("*NombreUsuario = " + usuario.NombreUsuario);
-                    Console.WriteLine("*Contraseña = " + usuario.Contrasena);
-                    Console.WriteLine("*Mail = " + usuario.Mail);
-
-                    Console.WriteLine("________________");
-                }
                 reader.Close();
             }
-            return new List<Usuario>();
+            return listaProductos;
         }
     }
 }

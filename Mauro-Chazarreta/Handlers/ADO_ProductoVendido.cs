@@ -12,7 +12,7 @@ namespace Mauro_Chazarreta.Handlers
     public class Ado_ProductoVendido
     {
         // C_ Metodo para traer los productos vendidos por un usuario.
-        public List<ProductoDto> GetProductosVendidosByUsuario()
+        public List<ProductoDto> GetProductosVendidosByUsuario(int IdUsuario)
         {
             var listaProductos = new List<ProductoDto>();
 
@@ -26,13 +26,13 @@ namespace Mauro_Chazarreta.Handlers
             {
                 connection.Open();
                 SqlCommand cmd = connection.CreateCommand();
-                var comando = new SqlCommand("select * from venta where v.IdVenta = @IdUsu", connection);
+                var comando = new SqlCommand("select p.Id,p.Descripciones,v.Stock from Producto p inner join ProductoVendido v on v.IdProducto = p.Id where v.IdVenta = @IdUsu", connection);
 
                 var parametro = new SqlParameter();
 
                 parametro.ParameterName = "IdUsu";
                 parametro.SqlDbType = SqlDbType.BigInt;
-                parametro.Value = 1;
+                parametro.Value = IdUsuario;
 
                 comando.Parameters.Add(parametro);
 
@@ -47,20 +47,10 @@ namespace Mauro_Chazarreta.Handlers
 
                     listaProductos.Add(producto);
                 }
-
-                Console.WriteLine("-----Productos Vendidos por el usuario-----");
-                foreach (var produc in listaProductos)
-                {
-                    Console.WriteLine("*Id = " + produc.Id);
-                    Console.WriteLine("*Descripciones = " + produc.Descripciones);
-                    Console.WriteLine("*Stock = " + produc.Stock);
-
-                    Console.WriteLine("________________");
-                }
                 reader.Close();
             }
         
-            return new List<ProductoDto>();
+            return listaProductos;
         }
     }
 }
