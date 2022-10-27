@@ -42,7 +42,7 @@ namespace WebApplication1.Repository
             return listVentas;
         }
 
-        public static void AgregarVenta(Venta ven)
+        public static void AgregarVenta(Venta ventas)
         {
             SqlConnectionStringBuilder conecctionbuilder = new SqlConnectionStringBuilder();
             conecctionbuilder.DataSource = "DESKTOP-O2006PP";
@@ -50,27 +50,37 @@ namespace WebApplication1.Repository
             conecctionbuilder.IntegratedSecurity = true;
             var cs = conecctionbuilder.ConnectionString;
 
+            long idVenta;
+
             using (SqlConnection connection = new SqlConnection(cs))
             {
                 connection.Open();
-                SqlCommand cmd = connection.CreateCommand();
-                cmd.CommandText = "Insert into venta(Comentarios, IdUsuario)" +
-                    " Values (@Comentarios, @IdUsuario)";
+                SqlCommand cmd = new SqlCommand("INSERT INTO [dbo].[Venta] (Comentarios, IdUsuario) VALUES (@Comentarios, @IdUsuario); Select scope_identity();", connection);
+                cmd.CommandType = CommandType.Text;
+                
+                
+                cmd.Parameters.Add(new SqlParameter("Comentarios", SqlDbType.NVarChar)).Value = ventas.Comentarios;
+                cmd.Parameters.Add(new SqlParameter("IdUsuario", SqlDbType.BigInt)).Value = ventas.IdUsuario;
 
-                var parametrocomen = new SqlParameter();
-                parametrocomen.ParameterName = "Stock";
-                parametrocomen.SqlDbType = SqlDbType.Int;
-                parametrocomen.Value = ven;
+                idVenta = Convert.ToInt64(cmd.ExecuteScalar());
 
-                var parametroidusu = new SqlParameter();
-                parametroidusu.ParameterName = "IdUsuario";
-                parametroidusu.SqlDbType = SqlDbType.BigInt;
-                parametroidusu.Value = ven;
-
-                cmd.Parameters.Add(parametrocomen);
-                cmd.Parameters.Add(parametroidusu);
-
-                cmd.ExecuteNonQuery();
+                //INSERT en tabla producto vendido con lista de productos enviados
+                foreach (ProductoVendido producto in ventas.Productos)
+                {
+                    //Agregar Venta
+                    cmd = new SqlCommand("INSERT INTO ProductoVendido (Stock,IdProducto,IdVenta)  VALUES   (@Stock,@IdProducto,@IdVenta) ", connection);
+                    cmd.CommandType = CommandType.Text;
+                    cmd.Parameters.Add(new SqlParameter("Stock", SqlDbType.Int)).Value = producto.Stock;
+                    cmd.Parameters.Add(new SqlParameter("IdProducto", SqlDbType.BigInt)).Value = producto.IdProducto;
+                    cmd.Parameters.Add(new SqlParameter("IdVenta", SqlDbType.BigInt)).Value = idVenta;
+                    cmd.ExecuteNonQuery();
+                    //Actualizar Stock en Productos
+                    cmd = new SqlCommand("UPDATE Producto SET Stock = Stock - @Stock WHERE idProducto = @IdProducto", connection);
+                    cmd.CommandType = CommandType.Text;
+                    cmd.Parameters.Add(new SqlParameter("Stock", SqlDbType.Int)).Value = producto.Stock;
+                    cmd.Parameters.Add(new SqlParameter("IdProducto", SqlDbType.BigInt)).Value = producto.IdProducto;
+                    cmd.ExecuteNonQuery();
+                }
                 connection.Close();
             }
         }

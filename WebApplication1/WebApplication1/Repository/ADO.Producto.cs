@@ -62,27 +62,27 @@ namespace WebApplication1.Repository
                 var parametrodes = new SqlParameter();
                 parametrodes.ParameterName = "Descripciones";
                 parametrodes.SqlDbType = SqlDbType.VarChar;
-                parametrodes.Value = pro;
+                parametrodes.Value = pro.Descripciones;
 
                 var parametrocos = new SqlParameter();
                 parametrocos.ParameterName = "Costo";
                 parametrocos.SqlDbType = SqlDbType.Money;
-                parametrocos.Value = pro;
+                parametrocos.Value = pro.Costo;
 
                 var parametropreven = new SqlParameter();
                 parametropreven.ParameterName = "PrecioVenta";
                 parametropreven.SqlDbType = SqlDbType.Money;
-                parametropreven.Value = pro;
+                parametropreven.Value = pro.PrecioVenta;
 
                 var parametrostock = new SqlParameter();
                 parametrostock.ParameterName = "Stock";
                 parametrostock.SqlDbType = SqlDbType.Int;
-                parametrostock.Value = pro;
+                parametrostock.Value = pro.Stock;
 
                 var parametroidUsu = new SqlParameter();
                 parametroidUsu.ParameterName = "IdUsuario";
                 parametroidUsu.SqlDbType = SqlDbType.BigInt;
-                parametroidUsu.Value = pro;
+                parametroidUsu.Value = pro.IdUsuario;
 
                 cmd.Parameters.Add(parametrodes);
                 cmd.Parameters.Add(parametrocos);
@@ -106,6 +106,21 @@ namespace WebApplication1.Repository
             using (SqlConnection connection = new SqlConnection(cs))
             {
                 connection.Open();
+
+                SqlCommand cmd2 = connection.CreateCommand();
+                cmd2.CommandText = "DELETE FROM ProductoVendido where IdProducto = @idpro";
+                var parametro2 = new SqlParameter();
+                parametro2.ParameterName = "idpro";
+                parametro2.SqlDbType = SqlDbType.BigInt;
+                parametro2.Value = id;
+
+                cmd2.Parameters.Add(parametro2);
+                cmd2.ExecuteNonQuery();
+
+                connection.Close();
+
+                connection.Open();
+
                 SqlCommand cmd = connection.CreateCommand();
                 cmd.CommandText = "DELETE FROM Producto where id = @idpro";
 
@@ -116,6 +131,7 @@ namespace WebApplication1.Repository
 
                 cmd.Parameters.Add(parametro);
                 cmd.ExecuteNonQuery();
+
                 connection.Close();
             }
         }
@@ -137,32 +153,32 @@ namespace WebApplication1.Repository
                 var parametroid = new SqlParameter();
                 parametroid.ParameterName = "Idpro";
                 parametroid.SqlDbType = SqlDbType.BigInt;
-                parametroid.Value = pro;
+                parametroid.Value = pro.Id;
 
                 var parametrodes = new SqlParameter();
                 parametrodes.ParameterName = "Descripciones";
                 parametrodes.SqlDbType = SqlDbType.VarChar;
-                parametrodes.Value = pro;
+                parametrodes.Value = pro.Descripciones;
 
                 var parametrocos = new SqlParameter();
                 parametrocos.ParameterName = "Costo";
                 parametrocos.SqlDbType = SqlDbType.Money;
-                parametrocos.Value = pro;
+                parametrocos.Value = pro.Costo;
 
                 var parametropreven = new SqlParameter();
                 parametropreven.ParameterName = "PrecioVenta";
                 parametropreven.SqlDbType = SqlDbType.Money;
-                parametropreven.Value = pro;
+                parametropreven.Value = pro.PrecioVenta;
 
                 var parametrostock = new SqlParameter();
                 parametrostock.ParameterName = "Stock";
                 parametrostock.SqlDbType = SqlDbType.Int;
-                parametrostock.Value = pro;
+                parametrostock.Value = pro.Stock;
 
                 var parametroidUsu = new SqlParameter();
                 parametroidUsu.ParameterName = "IdUsuario";
                 parametroidUsu.SqlDbType = SqlDbType.BigInt;
-                parametroidUsu.Value = pro;
+                parametroidUsu.Value = pro.IdUsuario;
 
                 cmd.Parameters.Add(parametrodes);
                 cmd.Parameters.Add(parametrocos);

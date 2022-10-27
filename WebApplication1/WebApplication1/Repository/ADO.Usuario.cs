@@ -144,32 +144,32 @@ namespace WebApplication1.Repository
                 var parametroid = new SqlParameter();
                 parametroid.ParameterName = "idusu";
                 parametroid.SqlDbType = SqlDbType.BigInt;
-                parametroid.Value = usu;
+                parametroid.Value = usu.Id;
 
                 var parametroNombre = new SqlParameter();
                 parametroNombre.ParameterName = "nombreUsu";
                 parametroNombre.SqlDbType = SqlDbType.VarChar;
-                parametroNombre.Value = usu;
+                parametroNombre.Value = usu.Nombre;
 
                 var parametroApe = new SqlParameter();
                 parametroApe.ParameterName = "apellidoUsu";
                 parametroApe.SqlDbType = SqlDbType.VarChar;
-                parametroApe.Value = usu;
+                parametroApe.Value = usu.Apellido;
 
                 var parametronomusu = new SqlParameter();
                 parametronomusu.ParameterName = "nombreUsuarioUsu";
                 parametronomusu.SqlDbType = SqlDbType.VarChar;
-                parametronomusu.Value = usu;
+                parametronomusu.Value = usu.NombreUsuario;
 
                 var parametrocontra = new SqlParameter();
                 parametrocontra.ParameterName = "contraseñaUsu";
                 parametrocontra.SqlDbType = SqlDbType.VarChar;
-                parametrocontra.Value = usu;
+                parametrocontra.Value = usu.Contraseña;
 
                 var parametromail = new SqlParameter();
                 parametromail.ParameterName = "mailUsu";
                 parametromail.SqlDbType = SqlDbType.VarChar;
-                parametromail.Value = usu;
+                parametromail.Value = usu.Mail;
 
                 cmd.Parameters.Add(parametroid);
                 cmd.Parameters.Add(parametroNombre);

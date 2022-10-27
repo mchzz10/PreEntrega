@@ -25,9 +25,9 @@ namespace WebApplication1.Controllers
             ADO_Venta.ModificarVenta(ven);
         }
         [HttpPost]
-        public void Agregar([FromBody] Venta ven)
+        public void Agregar([FromBody] Venta ventas)
         {
-            ADO_Venta.AgregarVenta(ven);
+            ADO_Venta.AgregarVenta(ventas);
         }
     }
 }
