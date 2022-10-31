@@ -38,6 +38,22 @@ namespace WebApplication1.Repository
                 reader2.Close();
                 connection.Close();
 
+                connection.Open();
+                SqlCommand cmd1 = connection.CreateCommand();
+                cmd2.CommandText = "SELECT * FROM ProductoVendido";
+                var reader1 = cmd2.ExecuteReader();
+
+                while (reader2.Read())
+                {
+                    var ProductoVendido = new ProductoVendido();
+
+                    ProductoVendido.Id = Convert.ToInt32(reader2.GetValue(0));
+                    ProductoVendido.Stock = Convert.ToInt32(reader2.GetValue(1));
+                    ProductoVendido.IdVenta = Convert.ToInt32(reader2.GetValue(2));
+                    ProductoVendido.IdProducto = Convert.ToInt32(reader2.GetValue(3));
+                }
+                reader2.Close();
+                connection.Close();
             }
             return listVentas;
         }
@@ -95,6 +111,19 @@ namespace WebApplication1.Repository
 
             using (SqlConnection connection = new SqlConnection(cs))
             {
+                connection.Open();
+                SqlCommand cmd1 = connection.CreateCommand();
+                cmd1.CommandText = "DELETE FROM ProductoVendido where id = @id";
+
+                var parametro1 = new SqlParameter();
+                parametro1.ParameterName = "id";
+                parametro1.SqlDbType = SqlDbType.BigInt;
+                parametro1.Value = id;
+
+                cmd1.Parameters.Add(parametro1);
+                cmd1.ExecuteNonQuery();
+                connection.Close();
+
                 connection.Open();
                 SqlCommand cmd = connection.CreateCommand();
                 cmd.CommandText = "DELETE FROM Venta where id = @id";

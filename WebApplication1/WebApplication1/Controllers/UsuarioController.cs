@@ -14,6 +14,17 @@ namespace WebApplication1.Controllers
         {
             return new List<Usuario>();
         }
+
+        [HttpGet("GetInicioSesion")]
+        public Usuario Get(String nombre, String contraseña)
+        {
+            return ADO_Usuario.InicioSesion(nombre, contraseña);
+        }
+        [HttpGet("GetUsuario")]
+        public Usuario Get(String nombre)
+        {
+            return ADO_Usuario.TraerUsuario(nombre);
+        }
         [HttpDelete]
         public void Eliminar([FromBody] int id)
         {
